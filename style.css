@@ -1,0 +1,102 @@
+@import url('https://fonts.googleapis.com/css2?family=Comfortaa:wght@300..700&display=swap');
+@import url('https://fonts.googleapis.com/css2?family=Atma:wght@300;400;500;600;700&display=swap');
+:root {
+    font-family: Atma !important;
+    font-size: 13px;
+
+    position: relative;
+    width: 100%;
+    height: 100%;
+    background: url('https://images.unsplash.com/photo-1604076913837-52ab5629fba9?q=80&w=2574&auto=format&fit=crop&ixlib=rb-4.0.3&ixid=M3wxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8fA%3D%3D') center center no-repeat;
+    background-size: cover;
+    
+    &:before {
+        content: '';
+        position: absolute;
+        top: 0;
+        right: 0;
+        bottom: 0;
+        left: 0;
+        background-image: linear-gradient(to bottom right,#00619a,#dc4225);
+        opacity: .6; 
+    }
+
+}
+
+.body {
+    width: 100vw;
+    height: 100vh;
+}
+
+.yes-button {
+    position: absolute;
+    top: 60%;
+    left: 30%;
+    width: 10%;
+    height: 4rem;
+    background-color: #9fd0a7;
+    border: 4px solid #2b5f34;
+    border-radius: 10px;
+    color: rgb(8, 54, 15); /* text color */
+    font-family: Comfortaa;
+    cursor: pointer;
+}
+
+.no-button {
+    color: white;
+    position: absolute;
+    top: 60%;
+    left: 60%;
+    width: 10%;
+    height: 4rem;
+    background-color: rgb(238, 158, 158);
+    border: 4px solid rgb(58, 24, 24);
+    border-radius: 10px;
+    font-family: Comfortaa;
+    cursor: pointer;
+}
+
+.image-container > img {
+    position: absolute;
+    top: 10%;
+    left: calc(50% - 15%);
+    width: 30%;
+    height: auto;
+    z-index: 0;
+    border: 4px solid transparent;
+    border-radius: 3rem;
+}
+
+h1 {
+    position: absolute;
+    top: 2rem;
+    width: 100%;
+    color: white;
+    font-size: 2.5rem;
+    text-align: center;
+    z-index: 1;
+}
+
+.bubble1 {
+    position: absolute;
+    top: 20%;
+    left: 10%;
+    width: 10%;
+    height: auto;
+    background-color: rgba(255, 255, 255, 0.5);
+    transform: translate(0%, 0%);
+    border-radius: 50%;
+    animation: bubble1-animation 5s ease-in-out infinite;
+}
+
+@keyframes bubble1-animation {
+    0% {
+        transform: translate(0%, 0%);
+    }
+    50% {
+        transform: translate(50%, 50%);
+    }
+    100% {
+        transform: translate(0%, 0%);
+    }
+}
