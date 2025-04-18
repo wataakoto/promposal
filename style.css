@@ -1,26 +1,52 @@
+/* ---------- IMPORTS ---------- */
 @import url('https://fonts.googleapis.com/css2?family=Comfortaa:wght@300..700&display=swap');
 @import url('https://fonts.googleapis.com/css2?family=Atma:wght@300;400;500;600;700&display=swap');
-:root {
-    font-family: Atma !important;
-    font-size: 13px;
 
+/* ---------- VARIABLES ---------- */
+:root {
+    --primary-font: 'Atma', cursive;
+    --button-font: 'Comfortaa', sans-serif;
+    --base-font-size: 13px;
+    
+    /* Colors */
+    --yes-bg: #45308f;
+    --yes-border: #0d0128;
+    --no-bg: rgb(155, 55, 92);
+    --no-border: rgb(89, 26, 55);
+    --yes2-bg: rgb(145, 0, 145);
+    --yes2-border: rgb(215, 0, 215);
+    --no2-bg: rgb(0, 149, 60);
+    --no2-border: rgb(93, 255, 120);
+    --modal-bg: #1e1e1ef1;
+    --text-color: white;
+    
+    /* Animation timings */
+    --bubble-timing: cubic-bezier(0.35, 0.65, 0.65, 0.35);
+    --bubble-timing-alt: cubic-bezier(0.4, 0.7, 0.6, 0.3);
+}
+
+/* ---------- GLOBAL STYLES ---------- */
+:root {
+    font-family: var(--primary-font) !important;
+    font-size: var(--base-font-size);
     position: relative;
     width: 100%;
     height: 100%;
     background: url('https://images.unsplash.com/photo-1604076913837-52ab5629fba9?q=80&w=2574&auto=format&fit=crop&ixlib=rb-4.0.3&ixid=M3wxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8fA%3D%3D') center center no-repeat;
     background-size: cover;
-    
-    &:before {
-        content: '';
-        position: absolute;
-        top: 0;
-        right: 0;
-        bottom: 0;
-        left: 0;
-        background-image: linear-gradient(to bottom right,#00619a,#dc4225);
-        opacity: .6; 
-    }
+    overflow: hidden;
+    z-index: -100;
+}
 
+:root:before {
+    content: '';
+    position: absolute;
+    top: 0;
+    right: 0;
+    bottom: 0;
+    left: 0;
+    background-image: linear-gradient(to bottom right, #00619a, #dc4225);
+    opacity: .6; 
 }
 
 .body {
@@ -28,75 +54,572 @@
     height: 100vh;
 }
 
-.yes-button {
-    position: absolute;
-    top: 60%;
-    left: 30%;
-    width: 10%;
-    height: 4rem;
-    background-color: #9fd0a7;
-    border: 4px solid #2b5f34;
-    border-radius: 10px;
-    color: rgb(8, 54, 15); /* text color */
-    font-family: Comfortaa;
-    cursor: pointer;
-}
-
-.no-button {
-    color: white;
-    position: absolute;
-    top: 60%;
-    left: 60%;
-    width: 10%;
-    height: 4rem;
-    background-color: rgb(238, 158, 158);
-    border: 4px solid rgb(58, 24, 24);
-    border-radius: 10px;
-    font-family: Comfortaa;
-    cursor: pointer;
-}
-
-.image-container > img {
-    position: absolute;
-    top: 10%;
-    left: calc(50% - 15%);
-    width: 30%;
-    height: auto;
-    z-index: 0;
-    border: 4px solid transparent;
-    border-radius: 3rem;
-}
-
+/* ---------- TYPOGRAPHY ---------- */
 h1 {
     position: absolute;
-    top: 2rem;
     width: 100%;
-    color: white;
-    font-size: 2.5rem;
+    margin: 0;
+    color: var(--text-color);
+    font-size: 3rem;
     text-align: center;
+    z-index: 1;
+    pointer-events: none;
+    left: 0;
+}
+
+.question-text {
+    top: 2rem;
     z-index: 1;
 }
 
-.bubble1 {
+/* ---------- IMAGES ---------- */
+.main-image {
     position: absolute;
-    top: 20%;
-    left: 10%;
-    width: 10%;
-    height: auto;
-    background-color: rgba(255, 255, 255, 0.5);
-    transform: translate(0%, 0%);
-    border-radius: 50%;
-    animation: bubble1-animation 5s ease-in-out infinite;
+    top: 10%;
+    left: 50%;
+    transform: translateX(-50%);
+    height: 45%;
+    width: auto;
+    z-index: 0;
+    border: 4px solid transparent;
+    border-radius: 3rem;
+    pointer-events: none;
 }
 
-@keyframes bubble1-animation {
+.yes-image, .no-image {
+    position: absolute;
+    top: 8%;
+    left: 50%;
+    transform: translateX(-50%);
+    height: 80%;
+    width: auto;
+    z-index: 5;
+    border: 4px solid transparent;
+    border-radius: 3rem;
+    pointer-events: none;
+}
+
+.yes-image {
+    box-shadow: 0 0 3.33px 0.67px rgba(255, 255, 255, 0.8), 
+                0 0 6.67px 1.33px rgba(255, 255, 255, 0.6), 
+                0 0 10px 2px rgba(255, 255, 255, 0.4);
+}
+
+.no-image {
+    opacity: 0;
+    transition: opacity 5s ease;
+}
+
+/* ---------- BUTTONS ---------- */
+.yes-button, .no-button {
+    position: absolute;
+    width: 10%;
+    height: 6%;
+    font-family: var(--button-font);
+    font-weight: 700;
+    font-size: 1.25rem;
+    border-radius: 10px;
+    cursor: pointer;
+    z-index: 2;
+    color: var(--text-color);
+    top: 65%;
+}
+
+.yes-button {
+    left: 30%;
+    background-color: var(--yes-bg);
+    border: 4px solid var(--yes-border);
+    transition: all 0.3s ease;
+}
+
+.yes-button:hover {
+    transform: scale(1.1) rotate(0deg);
+    animation: shake 0.6s ease-in-out;
+}
+
+.no-button {
+    left: 60%;
+    background-color: var(--no-bg);
+    border: 4px solid var(--no-border);
+}
+
+.no-button:hover {
+    animation: shake-no 0.6s cubic-bezier(.36,.07,.19,.97);
+}
+
+.no-button2, .yes-button2 {
+    position: relative;
+    top: 92%;
+    left: 35%;
+    width: 25%;
+    height: 6%;
+    border-radius: 10px;
+    font-family: var(--button-font);
+    font-weight: 700;
+    font-size: 1.25rem;
+    cursor: pointer;
+    z-index: 5;
+    transition: all 0.3s ease;
+    color: var(--text-color);
+}
+
+.yes-button2 {
+    background-color: var(--yes2-bg);
+    border: 4px solid var(--yes2-border);
+}
+
+.yes-button2:hover {
+    box-shadow: 0 0 3.33px 0.67px rgba(255, 255, 255, 0.8), 
+                0 0 6.67px 1.33px rgba(255, 255, 255, 0.6), 
+                0 0 10px 2px rgba(255, 255, 255, 0.4);
+    transform: scale(1.04);
+    animation: jump .3s ease infinite;
+}
+
+.no-button2 {
+    background-color: var(--no2-bg);
+    border: 4px solid var(--no2-border);
+}
+
+.no-button2:hover {
+    box-shadow: 0 0 3.33px 0.67px rgba(255, 255, 255, 0.8), 
+                0 0 6.67px 1.33px rgba(255, 255, 255, 0.6), 
+                0 0 10px 2px rgba(255, 255, 255, 0.4);
+    transform: scale(1.04);
+}
+
+/* ---------- MODALS ---------- */
+.yes-clicked, .no-clicked {
+    background-color: var(--modal-bg);
+    position: relative;
+    width: 50%;
+    height: 90%;
+    left: 25vw;
+    top: 5vh;
+    border-radius: 3rem;
+    display: none;
+    opacity: 0;
+    transition: all 0.1s ease-out, opacity 0.2s ease;
+    z-index: 4;
+}
+
+.yes-clicked {
+    transform: scale(0);
+}
+
+[class*='clicked'] {
+    display: none;
+}
+
+.fade-in {
+    opacity: 1;
+}
+
+.zoom-in {
+    transform: scale(1);
+}
+
+/* ---------- BUBBLES BASE STYLES ---------- */
+[class^='bubble'] {
+    width: 15vw;
+    height: 15vw;
+    overflow: hidden;
+    border-radius: 50%;
+    offset-rotate: 0deg;
+    position: absolute;
+    pointer-events: none;
+}
+
+[class^='bubble'] img {
+    width: 100%;
+    object-fit: cover;
+}
+
+/* ---------- BUBBLE POSITIONING & STYLING ---------- */
+.bubble1 {
+    top: 20%;
+    left: 17%;
+    scale: .9;
+}
+
+.bubble2 {
+    top: 25%;
+    right: 3%;
+    scale: .85;
+}
+
+.bubble2 img {
+    transform: scale(1.7);
+    transform-origin: bottom center;
+}
+
+.bubble3 {
+    bottom: -10%;
+    right: 2%;
+    scale: 0.8;
+    border-radius: 40%;
+}
+
+.bubble3 img {
+    transform: scale(1.1);
+    transform-origin: left center;
+}
+
+.bubble4 {
+    bottom: 1%;
+    left: 8%;
+    scale: 0.8;
+}
+
+.bubble4 img {
+    transform: scale(1.2);
+    transform-origin: bottom left;
+}
+
+.bubble5 {
+    bottom: -10%;
+    left: 50%;
+    scale: 0.6;
+}
+
+.bubble5 img {
+    transform: scale(1.6);
+    transform-origin: 33% 0%;
+}
+
+.bubble6 {
+    top: 50%;
+    right: 1%;
+    scale: 0.7;
+    border-radius: 33%;
+}
+
+.bubble6 img {
+    transform: scale(1.1);
+    transform-origin: bottom left;
+}
+
+.bubble7 {
+    top: 49%;
+    left: 22%;
+    scale: 0.8;
+}
+
+.bubble7 img {
+    transform: scale(1.2);
+}
+
+.bubble8 {
+    bottom: 0%;
+    left: 20%;
+    scale: 0.6;
+    border-radius: 25%;
+}
+
+.bubble8 img {
+    transform: scale(1.15);
+}
+
+.bubble9 {
+    top: 60%;
+    left: 47%;
+    scale: 0.45;
+    border-radius: 40%;
+}
+
+.bubble9 img {
+    transform: scale(1);
+}
+
+/* ---------- BUBBLE ANIMATIONS ---------- */
+.bubble1 {
+    offset-path: path("M-14 14q39 6 28-27C7-30-5 26-22 14Q-50-11-5-11 34-6 3-3T1 8q16 6 0-23C-7-30-11 3-19-7Q-34-21-39-8c-10 8 6 18 25 22");
+    animation: follow-path 36s var(--bubble-timing) infinite;
+}
+
+.bubble2 {
+    offset-path: path("M-14 14Q25 20 14-13C0-23 0 20-22 14Q-20 26-5-11 34-6 3-3T1 8Q-38-8 1-15-33-22-14 14");
+    animation: follow-path 45s var(--bubble-timing-alt) infinite;
+}
+
+.bubble3 {
+    offset-path: path("M0 0C4 11-7 20-17 13-32 11-31-15-18-13c6.3 1 14 9 19 3 6-7-19-11-13-15C2-35 42-29 23-9 12 2 2 17-7 9-11 5-5-12 18-21c6.7-3.7 24-4 20-11-3.3-5.7-4-22-27-16-6 1.7-21 1-30 18C-26-19-3-13 0 0");
+    animation: follow-path 52s var(--bubble-timing-alt) infinite;
+}
+
+.bubble4 {
+    offset-path: path("M-12 14A8 8 90 0012-14c-8-4-48-2-28 28q2 8 28 4Q28-6 16-12t-28-6Q-32-2-12 14C1 25 16 0 8-8 4-12-11-9-11-2-11 4 8 1 2 10-5 18-21 7-17 1-13-7 2-15 10-10c6 4 9 17 3 20-3 2-40-9-25 4");
+    animation: follow-path 30s var(--bubble-timing) infinite;
+}
+
+.bubble5 {
+    offset-path: path("M14 12A8 8 0 00-14-12c-4 8-2 48 28 28q8-2 4-28Q-6-28-12-16t-6 28Q-2 32 14 12C25-1-0-16-8-8-12-4-9 11-2 11 4 11 1-8 10-2 18 5 7 21 1 17-7 13-15-2-10-10c4-6 17-9 20-3 2 3-9 40 4 25");
+    animation: follow-path 25s var(--bubble-timing) infinite;
+}
+
+.bubble6 {
+    offset-path: path("M-14-14q-6 39 27 28C30 7-26-5-14-22Q11-50 11-5 6 34 3 3T-8 1q-6 16 23-0C30-7-3-11 7-19Q21-34 8-39c-8-10-18 6-22 25");
+    animation: follow-path 42s var(--bubble-timing) infinite;
+}
+
+.bubble7 {
+    offset-path: path("M6-7C13.5-.5-5-6-6.5-5-9.5-3.5-8 3-5 5-1 7.5 6.5 3.5 8.5-.5 10.5-3.5 2.5-9-1-5-4-.5 5.5-2 5.5 1 5.5 4.5-2 6-4 4-8 0-.5-12.5 6-7Q16 1 6 9-2 9-8 6T-6-9Q7-11 8-7C18 8-2 9-6 7A4 4 270 016-7");
+    animation: follow-path 36s var(--bubble-timing) infinite;
+}
+
+.bubble8 {
+    offset-path: path("M-14 14q39 6 28-27C7-30-5 26-22 14Q-50-11-5-11 34-6 3-3T1 8q16 6 0-23C-7-30-11 3-19-7Q-34-21-39-8c-10 8 6 18 25 22");
+    animation: follow-path 36s var(--bubble-timing) infinite;
+}
+
+.bubble9 {
+    offset-path: path("M0 0C-24-41.4 64-96.6 112-50.6 196 32-80-59.8-64 0-16 128.8 136-4.6 64-32.2-40-73.6 56 92 0 55.2-96-9.2-8-73.6 56-69 152-64.4-16 69 8 92c16 13.8 37.3 3.1 56 4.6 40 0 21.3-27.6 32-41.4C128 13.8 24 41.4 0 0");
+    animation: follow-path 62s var(--bubble-timing-alt) infinite;
+}
+
+/* ---------- CONFETTI ---------- */
+.confetti {
+    position: absolute;
+    top: 50%;
+    left: 50%;
+    pointer-events: none;
+    transform: translate(-50%, -50%);
+    width: 0;
+    height: 0;
+    z-index: 100;
+}
+
+.confetti-piece {
+    position: absolute;
+    width: 8px;
+    height: 8px;
+    opacity: 1;
+    border-radius: 2px;
+    animation: confetti-explosion 1.5s ease-out forwards;
+    z-index: 100;
+}
+
+/* ---------- ANIMATIONS ---------- */
+@keyframes shake {
+    0%, 100% { transform: scale(1.1) rotate(0deg); }
+    12.5% { transform: scale(1.1) rotate(3deg); }
+    25% { transform: scale(1.1) rotate(0deg); }
+    37.5% { transform: scale(1.1) rotate(-3deg); }
+    50% { transform: scale(1.1) rotate(0deg); }
+    62.5% { transform: scale(1.1) rotate(3deg); }
+    75% { transform: scale(1.1) rotate(0deg); }
+    87.5% { transform: scale(1.1) rotate(-3deg); }
+}
+
+@keyframes shake-no {
+    0% { transform: translate(1px, 1px) rotate(0deg); }
+    8.33% { transform: translate(-1px, -2px) rotate(-1deg); }
+    16.66% { transform: translate(-3px, 0px) rotate(1deg); background: rgb(146, 0, 0); }
+    25% { transform: translate(3px, 2px) rotate(0deg); }
+    33.33% { transform: translate(1px, -1px) rotate(1deg); }
+    41.66% { transform: translate(-1px, 2px) rotate(-1deg); }
+    50% { transform: translate(-3px, 1px) rotate(0deg); }
+    58.33% { transform: translate(3px, 1px) rotate(-1deg); }
+    66.66% { transform: translate(-1px, -1px) rotate(1deg); }
+    75% { transform: translate(1px, 2px) rotate(0deg); }
+    83.33% { transform: translate(1px, -2px) rotate(-1deg); }
+    91.66% { transform: translate(1px, 1px) rotate(0deg); background: rgba(0, 0, 0, 0.3); }
+    100% { transform: translate(1px, 1px) rotate(0deg); }
+}
+
+@keyframes jump {
+    0%, 100% { transform: translateY(0%); }
+    50% { transform: translateY(-10%); }
+}
+
+@keyframes confetti-explosion {
     0% {
-        transform: translate(0%, 0%);
-    }
-    50% {
-        transform: translate(50%, 50%);
+        opacity: 1;
+        transform: translate(0, 0) scale(1) rotate(0deg);
     }
     100% {
-        transform: translate(0%, 0%);
+        opacity: 0;
+        transform: translate(calc(var(--dx) * 5px), calc(var(--dy) * 5px)) scale(0.5) rotate(var(--rotate));
     }
+}
+
+@keyframes follow-path {
+    to {
+        offset-distance: 100%;
+    }
+}
+
+/* MEDIA QUERIES -- ONLY FOR SMALL SCREENS BELOW */
+
+/* Base styles adjustment for all screens */
+html, body {
+  margin: 0;
+  padding: 0;
+  overflow-x: hidden;
+  width: 100%;
+  height: 100%;
+}
+
+/* Desktop-first media queries */
+
+/* Medium screens (tablets, less than 992px) */
+@media (max-width: 992px) {
+  h1 {
+    font-size: 2.5rem;
+  }
+  
+  .yes-button, .no-button {
+    width: 15%;
+  }
+
+  [class^='bubble'] {
+    width: 18vw;
+    height: 18vw;
+  }
+  
+  /* Slightly adjust bubble positions */
+  .bubble1 { top: 18%; left: 12%; }
+  .bubble2 { top: 22%; right: 5%; }
+  .bubble9 { top: 55%; left: 45%; }
+}
+
+/* Small screens (landscape phones, less than 768px) */
+@media (max-width: 768px) {
+  h1 {
+    font-size: 2rem;
+    top: 1rem;
+  }
+  
+  .main-image {
+    height: 40%;
+    top: 15%;
+  }
+  
+  .yes-button, .no-button {
+    width: 25%;
+    font-size: 1.1rem;
+    top: 68%;
+  }
+  
+  .yes-button {
+    left: 20%;
+  }
+  
+  .no-button {
+    left: 55%;
+  }
+  
+  /* Modal adjustments */
+  .yes-clicked, .no-clicked {
+    width: 80%;
+    left: 10vw;
+  }
+  
+  /* Bubble redistribution - fill empty spaces */
+  [class^='bubble'] {
+    width: 20vw;
+    height: 20vw;
+  }
+  
+  .bubble1 { top: 10%; left: 5%; scale: 0.7; }
+  .bubble2 { top: 10%; right: 5%; scale: 0.7; }
+  
+  /* Move bubbles to sides of main content */
+  .bubble3 { bottom: 5%; right: 5%; scale: 0.6; }
+  .bubble4 { bottom: 5%; left: 5%; scale: 0.6; }
+  .bubble5 { bottom: 0%; left: 60%; scale: 0.5; }
+  
+  /* Fill in space between buttons */
+  .bubble9 { top: 80%; left: 42%; scale: 0.35; }
+  
+  /* Use sides effectively */
+  .bubble6 { top: 40%; right: 2%; scale: 0.6; }
+  .bubble7 { top: 40%; left: 2%; scale: 0.6; }
+  .bubble8 { bottom: 5%; left: 20%; scale: 0.5; }
+}
+
+/* Extra small screens (phones, less than 576px) */
+@media (max-width: 576px) {
+  h1 {
+    font-size: 1.5rem;
+    top: 0.5rem;
+  }
+  
+  .main-image {
+    height: 35%;
+    top: 12%;
+  }
+  
+  .yes-button, .no-button {
+    width: 35%;
+    height: 8%;
+    font-size: 1rem;
+    top: 60%;
+  }
+  
+  .yes-button {
+    left: 10%;
+  }
+  
+  .no-button {
+    left: 55%;
+  }
+  
+  .yes-button2, .no-button2 {
+    width: 50%;
+    left: 25%;
+    font-size: 1rem;
+  }
+  
+  /* Reorganize bubbles */
+  [class^='bubble'] {
+    width: 22vw;
+    height: 22vw;
+  }
+  
+  /* Position bubbles around the edges */
+  .bubble1 { top: 8%; left: 20%; scale: 0.95; }
+  .bubble2 { top: 8%; right: 2%; scale: 0.85; }
+  .bubble3 { bottom: 0%; right: 2%; scale: 0.65; }
+  .bubble4 { bottom: 38%; left: 33%; scale: 0.7; }
+  .bubble5 { bottom: 15%; left: 30%; scale: 0.84; }
+  .bubble6 { top: 53%; right: 2%; scale: 0.65; }
+  .bubble7 { top: 90%; left: 50%; scale: 0.85; }
+  .bubble8 { bottom: 2%; left: 20%; scale: 0.74; }
+  .bubble9 { bottom: 5%; left: 60%; scale: 0.73; }
+  
+  /* Modal adjustments for smallest screens */
+  .yes-clicked, .no-clicked {
+    width: 90%;
+    height: 80%;
+    left: 5vw;
+    top: 10vh;
+  }
+  
+  /* Adjust images in modals */
+  .yes-image, .no-image {
+    height: 65%;
+  }
+}
+
+/* Special handling for very small heights */
+@media (max-height: 600px) {
+  .main-image {
+    height: 30vh;
+  }
+  
+  h1 {
+    font-size: 1.4rem;
+  }
+  
+  /* Adjust bubble visibility for short screens */
+  .bubble5, .bubble8, .bubble9 { display: none; }
+}
+
+/* Confetti adjustments for mobile */
+@media (max-width: 768px) {
+  .confetti-piece {
+    width: 6px;
+    height: 6px;
+  }
 }
